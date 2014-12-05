@@ -9,12 +9,16 @@
 #import "TableViewController.h"
 #import "TableViewCell.h"
 
+#define SHOW_BUG 1
+
 @implementation TableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if SHOW_BUG
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+#endif
 }
 
 #pragma mark - UITableViewDelegate
@@ -23,14 +27,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.row != 0) {
         [tableView beginUpdates];
-        [tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [tableView moveRowAtIndexPath:indexPath
+                          toIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         [tableView endUpdates];
     }
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return 88.f;
-//}
+#if !SHOW_BUG
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 88.f;
+}
+#endif
 
 #pragma mark - UITableViewDataSource
 
